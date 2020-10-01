@@ -92,20 +92,14 @@ bool dfs(ll x, ll pr)
 
 }*/
 
-ll solve()
+//ll solve()
 
 int main()
 {
     fast
      test
      {
-         ll n;
-         cin>>n;
-         ll a[n],b[n],c[n];
-         f0(i,n)cin>>a[i];
-         f0(i,n)cin>>b[i];
-         f0(i,n)cin>>c[i];
-         solve(0,1);
+         cout<<"sdgs";
      }
 }
 
