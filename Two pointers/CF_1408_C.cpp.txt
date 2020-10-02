@@ -92,14 +92,51 @@ bool dfs(ll x, ll pr)
 
 }*/
 
-//ll solve()
+
 
 int main()
 {
     fast
      test
      {
-         cout<<"sdgs";
+         ll n , l;
+         cin>>n>>l;
+         ll a[n+1]; ll i;
+         f1(i,n)cin>>a[i];
+         ll sa=1 , sb=1 ;
+          double ca =0 ,cb = l;
+          i=1 ; ll j=n;
+         // ll da, db;
+         double ans=0;
+         while(i<=j)
+         {
+              double da = a[i]- ca;
+               double db = cb - a[j];
+             double ta = da * 1.0 /sa;
+             double tb = db * 1.0 /sb;
+
+             if(ta<=tb)
+             {
+                 ca += da;
+                 cb -= sb * 1.0 * ta;
+                 i++;
+                 sa++;
+                 ans+= ta;
+             }
+             else
+             {
+                 ca += sa * 1.0 * tb;
+                 cb -= db;
+                 j--;
+                 sb++;
+                 ans +=tb;
+             }
+         }
+         double dis = cb - ca ;
+         ans += dis * 1.0 / (sa + sb);
+         cout<<fixed<<setprecision(15)<<ans;
+         nl;
+
      }
 }
 
