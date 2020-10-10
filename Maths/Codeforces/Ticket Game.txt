@@ -1,0 +1,115 @@
+#include<bits/stdc++.h>
+using namespace std;
+//#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+
+#define ll long long
+#define fast ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define test int t; cin>>t; while(t--)
+#define pb push_back
+#define mp(a,b) make_pair(a,b)
+#define f0(i,n) for( ll i = 0; i < ( n ); i ++)
+#define f1(i,n) for(i = 1; i <= ( n ); i ++)
+#define f(i,m,n) for(auto i = ( m ); i <= ( n ); i ++)
+#define nl cout<<"\n"
+#define  mod 1000000007
+#define fi first
+#define se second
+#define all(a) a.begin(),a.end()
+#define rall(v) v.rbegin(), v.rend()
+#define SZ(x) ((ll)x.size())
+#define mem(a, b) memset(a, b, sizeof(a));
+#define make_graph(k) int x,y; f0(i,k){cin>>x>>y; adj[x].pb(y); /*adj[y].pb(x);*/}
+#define dekh cout<<"dekh"
+
+#define o_set tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update>
+#define o_setpll tree<pair<ll,ll>, null_type, less<pair<ll,ll>>, rb_tree_tag, tree_order_statistics_node_update>
+typedef vector<ll> vl;
+
+
+
+
+ll Pow(ll a, ll b, ll m){
+    if(b==0)return 1;
+    if(b%2==0){
+        ll x = a*a;
+        x%=m;
+        return Pow(x,b/2,m);
+    }
+    return (a*Pow(a,b-1,m))%m;
+}
+
+/*vector<ll>adj[200005];
+ ll vis[200005]={0};
+ ll depth[200005]={0};*/
+
+//ll p;ll arr[200005];
+/*
+void dfs(ll x)
+{
+
+    vis[x]=1;
+
+    for(auto child : adj[x])
+    {   if(!vis[child])
+         {
+             dfs(child);
+         }
+         depth[x]= max(depth[x],depth[child]+1);
+
+    }
+
+}
+
+*/
+
+int main()
+{
+    fast
+    ll n;
+    cin>>n;
+    ll qcnt = 0;
+    string s; cin>>s;
+    f0(i,n)
+    {
+        if(s[i]=='?')qcnt++;
+    }
+    //if(qcnt==n){cout<<"Bicarp";nl;return 0;}
+    if(qcnt%2){cout<<"Monocarp";nl;return 0;}
+
+    ll lsum=0, rsum = 0 ,lm=0 ,lb=0 , rm=0 ,rb=0,boom=1;
+    f0(i,n)
+    {
+        if(s[i]=='?' && i<n/2 && boom%2)lm++,boom++;
+        else if(s[i]=='?' && i<n/2 && boom%2==0)lb++,boom++;
+
+        if(s[i]!='?' && i<n/2)lsum+=s[i]-'0';
+
+        if(s[i]=='?' && i>=n/2 && boom%2)rm++,boom++;
+       else  if(s[i]=='?' && i>=n/2 && boom%2==0)rb++,boom++;
+        if(s[i]!='?' && i>=n/2)rsum+=s[i]-'0';
+
+    }
+    if(qcnt==0 && lsum==rsum){cout<<"Bicarp";nl;return 0;}
+
+   // if(lsum==rsum){cout<<"Monocarp";nl;return 0;}
+
+    ll lsumc = lsum, rsumc = rsum;
+    //cout<<lm<<" "<<lb<<" "<<rm<<" "<<rb;
+
+    // left me dalu
+    lsumc+= 9*(lm);
+    rsumc+= 9*(rb);
+
+    //right me dalu
+    rsum += 9*(rm);
+    lsum += 9*(lb);
+
+    if(rsumc>=lsumc && lsum>=rsum){cout<<"Bicarp";}
+    else cout<<"Monocarp";
+
+
+
+
+}
