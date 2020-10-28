@@ -1,0 +1,136 @@
+#include<bits/stdc++.h>
+using namespace std;
+//#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+
+#define ll long long
+#define fast ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define test int t; cin>>t; while(t--)
+#define pb push_back
+#define mp(a,b) make_pair(a,b)
+#define f0(i,n) for( ll i = 0; i < ( n ); i ++)
+#define f1(i,n) for(i = 1; i <= ( n ); i ++)
+#define f(i,m,n) for(auto i = ( m ); i <= ( n ); i ++)
+#define nl cout<<"\n"
+#define  mod 1000000007
+#define fi first
+#define se second
+#define all(a) a.begin(),a.end()
+#define rall(v) v.rbegin(), v.rend()
+#define SZ(x) ((ll)x.size())
+#define mem(a, b) memset(a, b, sizeof(a));
+#define make_graph(k) int x,y; f0(i,k){cin>>x>>y; adj[x].pb(y); adj[y].pb(x);}
+#define dekh cout<<"dekh"
+
+#define o_set tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update>
+#define o_setpll tree<pair<ll,ll>, null_type, less<pair<ll,ll>>, rb_tree_tag, tree_order_statistics_node_update>
+typedef vector<ll> vl;
+
+
+
+
+ll Pow(ll a, ll b, ll m){
+    if(b==0)return 1;
+    if(b%2==0){
+        ll x = a*a;
+        x%=m;
+        return Pow(x,b/2,m);
+    }
+    return (a*Pow(a,b-1,m))%m;
+}
+/*
+vector<ll>adj[300005];
+ ll vis[300005]={0};
+ //ll subtree[200005]= {0};
+
+ map<pair<ll,ll>,ll>mp;
+ll ans=0;ll sum=0;
+
+void dfs(ll node , ll par)
+{
+    vis[node]=1;
+    //cout<<node<<" "<<par;nl;
+
+    for(auto child : adj[node])
+    {   //cout<<node<<" "<<par<<" "<<child;nl;
+         if(!vis[child])
+         {
+             //cout<<mp[{node,child}];nl;
+             sum+=mp[{node,child}];
+             dfs(child, node );
+         }
+         else
+         {
+             if(child!=par && par!=-1) {
+             if(mp[{node,par}]!=mp[{node,child}])
+                {
+                    ans=1; //cout<<mp[{node,par}]<<" "<<mp[{node,child}];nl;
+                    //cout<<node<<" "<<par<<" "<<child;nl;
+                }
+             }
+         }
+
+    }
+
+
+}
+
+*/
+/*
+ll rate[100005];
+ll page[100005];
+ll n,pri;
+ll dp[1005][100005];
+
+ll solve(ll ind , ll pri )
+{
+    if(ind<0 || pri==0)return dp[ind][pri]=0;
+
+    if(dp[ind][pri]!=-1)return dp[ind][pri];
+
+    if( rate[ind]>pri )
+    {
+       return  dp[ind][pri]= solve( ind-1 , pri );
+    }
+    else
+    {
+        return dp[ind][pri] = max( solve(ind-1, pri) , page[ind] + solve(ind-1 , pri - rate[ind]) );
+    }
+}
+*/
+ll n ;
+ll arr[205];
+ll dp[205][405];
+
+ll solve(ll ind , ll T)
+{
+   // cout<<ind<<" "<<T;nl;
+    if(ind==n)return 0;
+
+    if(T==2*n+1)return INT_MAX;
+    if(dp[ind][T]!=-1)return dp[ind][T];
+
+    ll ans = INT_MAX;
+    ans = min ( ans, abs(T-arr[ind])+ solve(ind+1, T+1));
+    ans = min (ans , solve(ind, T+1));
+    //cout<<ans;nl;
+    return dp[ind][T]= ans;
+}
+
+int main()
+{
+    fast
+    test
+    {
+        ll i;
+        cin>>n;
+        mem(dp,-1);
+        //ll arr[n];
+        f0(i,n)cin>>arr[i];
+        sort(arr,arr+n);
+        cout<<solve(0 , 1);nl;
+    }
+
+}
+
