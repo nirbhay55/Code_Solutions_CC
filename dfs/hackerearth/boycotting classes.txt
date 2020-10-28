@@ -1,0 +1,138 @@
+#include<bits/stdc++.h>
+using namespace std;
+//#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+
+#define ll long long
+#define fast ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define test int t; cin>>t; while(t--)
+#define pb push_back
+#define mp(a,b) make_pair(a,b)
+#define f0(i,n) for( ll i = 0; i < ( n ); i ++)
+#define f1(i,n) for(i = 1; i <= ( n ); i ++)
+#define f(i,m,n) for(auto i = ( m ); i <= ( n ); i ++)
+#define nl cout<<"\n"
+#define  mod 1000000007
+#define fi first
+#define se second
+#define all(a) a.begin(),a.end()
+#define rall(v) v.rbegin(), v.rend()
+#define SZ(x) ((ll)x.size())
+#define mem(a, b) memset(a, b, sizeof(a));
+#define make_graph(k) int x,y; f0(i,k){cin>>x>>y; adj[x].pb(y); adj[y].pb(x);}
+#define dekh cout<<"dekh"
+
+#define o_set tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update>
+#define o_setpll tree<pair<ll,ll>, null_type, less<pair<ll,ll>>, rb_tree_tag, tree_order_statistics_node_update>
+typedef vector<ll> vl;
+
+
+
+
+ll Pow(ll a, ll b, ll m){
+    if(b==0)return 1;
+    if(b%2==0){
+        ll x = a*a;
+        x%=m;
+        return Pow(x,b/2,m);
+    }
+    return (a*Pow(a,b-1,m))%m;
+}
+
+vector<ll>adj[500005];
+ ll vis[500005]={0};
+ //ll dep[100005]={0};
+ //ll subtree[200005]= {0};
+ ll maxnode, maxd ;
+void dfs(ll node , ll dis)
+{
+   // cout<<node<<" "<<dis;nl;
+    vis[node]=1;
+    if(maxd<dis){maxd=dis, maxnode = node;}
+    //cout<<node<<" "<<par;nl;
+
+    for(auto child : adj[node])
+    {   //cout<<node<<" "<<par<<" "<<child;nl;
+         if(!vis[child])
+         {
+             //cout<<mp[{node,child}];nl;
+             dfs(child , dis+1);
+         }
+
+
+    }
+
+
+}
+
+
+/*
+ll rate[100005];
+ll page[100005];
+ll n,pri;
+ll dp[1005][100005];
+
+ll solve(ll ind , ll pri )
+{
+    if(ind<0 || pri==0)return dp[ind][pri]=0;
+
+    if(dp[ind][pri]!=-1)return dp[ind][pri];
+
+    if( rate[ind]>pri )
+    {
+       return  dp[ind][pri]= solve( ind-1 , pri );
+    }
+    else
+    {
+        return dp[ind][pri] = max( solve(ind-1, pri) , page[ind] + solve(ind-1 , pri - rate[ind]) );
+    }
+}
+*/
+/*
+ll rsum, ans=0 ;
+ll arr[65];
+bool dp[65][600005];
+
+bool solve(ll ind , ll sum)
+{
+    cout<<ind<<" "<<sum;nl;
+    if(dp[ind][sum]!=-1)return dp[ind][sum];
+    if(ind==-1 && sum==rsum){ ans=1; return dp[ind][sum]=true;; }
+
+    if(ind<-1)return false ;
+
+
+   return dp[ind][sum] =  solve( ind-1 , sum + arr[ind] ) ||  solve( ind-1 , sum - arr[ind] );
+
+}
+*/
+
+
+int main()
+{
+    fast
+
+    test
+    {   ll i;
+         maxd=-1;
+        ll n;
+        cin>>n;
+		 f1(i,n+1){vis[i]=0; adj[i].clear();}
+        make_graph(n-1);
+        dfs(1,0);
+        // ll i;
+       // cout<<maxnode;nl;
+        f1(i,n+1)vis[i]=0;
+        maxd=-1;
+        dfs(maxnode,0);
+
+		//maxd=-1;
+
+        cout<<maxd+1;nl;
+    }
+
+}
+
+
+
