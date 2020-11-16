@@ -1,0 +1,117 @@
+#include<bits/stdc++.h>
+using namespace std;
+//#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+
+#define ll long long
+#define fast ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define test int t; cin>>t; while(t--)
+#define pb push_back
+#define mp(a,b) make_pair(a,b)
+#define f0(i,n) for( ll i = 0; i < ( n ); i ++)
+#define f1(i,n) for(i = 1; i <= ( n ); i ++)
+#define f(i,m,n) for(auto i = ( m ); i <= ( n ); i ++)
+#define nl cout<<"\n"
+#define  mod 1000000007
+#define fi first
+#define se second
+#define all(a) a.begin(),a.end()
+#define rall(v) v.rbegin(), v.rend()
+#define SZ(x) ((ll)x.size())
+#define mem(a, b) memset(a, b, sizeof(a));
+#define make_graph(k) int x,y; f0(i,k){cin>>x>>y; adj[x].pb(y); adj[y].pb(x);}
+#define dekh cout<<"dekh"
+
+#define o_set tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update>
+#define o_setpll tree<pair<ll,ll>, null_type, less<pair<ll,ll>>, rb_tree_tag, tree_order_statistics_node_update>
+typedef vector<ll> vl;
+
+
+
+
+ll Pow(ll a, ll b, ll m){
+    if(b==0)return 1;
+    if(b%2==0){
+        ll x = a*a;
+        x%=m;
+        return Pow(x,b/2,m);
+    }
+    return (a*Pow(a,b-1,m))%m;
+}
+/*
+vector<ll>adj[300005];
+ ll vis[300005]={0};
+ //ll subtree[200005]= {0};
+
+ map<pair<ll,ll>,ll>mp;
+ll ans=0;ll sum=0;
+
+void dfs(ll node , ll par)
+{
+    vis[node]=1;
+    //cout<<node<<" "<<par;nl;
+
+    for(auto child : adj[node])
+    {   //cout<<node<<" "<<par<<" "<<child;nl;
+         if(!vis[child])
+         {
+             //cout<<mp[{node,child}];nl;
+             sum+=mp[{node,child}];
+             dfs(child, node );
+         }
+         else
+         {
+             if(child!=par && par!=-1) {
+             if(mp[{node,par}]!=mp[{node,child}])
+                {
+                    ans=1; //cout<<mp[{node,par}]<<" "<<mp[{node,child}];nl;
+                    //cout<<node<<" "<<par<<" "<<child;nl;
+                }
+             }
+         }
+
+    }
+
+
+}
+
+*/
+
+
+int main()
+{
+    fast
+    test
+    {
+        ll n,m;
+        cin>>n>>m;
+        ll arr[n][m];
+        ll mini = INT_MAX;
+        ll sum=0,cnt=0,flag=0;
+        f0(i,n)
+        {
+            f0(j,m)
+            {
+                cin>>arr[i][j];
+                sum+=abs(arr[i][j]);
+                mini = min(mini, abs(arr[i][j]));
+                if(arr[i]==0){flag=1;}
+                if(arr[i][j]<0)cnt++;
+            }
+        }
+        if(flag)
+        {
+            cout<<sum;nl;
+        }
+        else
+        {
+            if(cnt%2==0)cout<<sum;
+            else cout<<sum-2*mini;
+            nl;
+        }
+    }
+}
+
+
+
