@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+vector <int> adj[100099];
+bool visited[100099];
+int arr[100090],parent[100099],cnt;
+void dfs(int s)
+{
+    visited[s] = true;
+    for(int i = 0; i < adj[s].size(); ++i)
+    {
+        if(visited[adj[s][i]] == false)
+        {
+            ++arr[s];
+            parent[adj[s][i]]=s;
+            dfs(adj[s][i]);
+        }
+    }
+}
+void initialize()
+{
+    for(int i = 0; i < 100090; ++i)
+        visited[i] = false;
+}
+int main()
+{
+    int nodes, edges;
+    cin >> nodes>> edges;
+    for(int i = 0; i < edges; ++i)
+    {
+        int x,y;
+        cin >> x >> y;
+        adj[x].push_back(y);
+        adj[y].push_back(x);
+    }
+    initialize();
+    for(int i=1; i<=nodes; i++)
+        if(visited[i]==false)
+            dfs(i);
+    for(int i=1; i<=nodes; i++)
+    {
+        if(parent[i]!=0)
+            if(arr[parent[i]]<arr[i])
+                ++cnt;
+    }
+    cout<<cnt<<endl;
+    return 0;
+}
