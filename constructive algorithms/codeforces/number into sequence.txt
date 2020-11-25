@@ -1,0 +1,123 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")
+
+/* // Ordered Set
+#include <ext/pb_ds/assoc_container.hpp> 
+#include <ext/pb_ds/tree_policy.hpp> 
+using namespace __gnu_pbds;
+template<typename T>
+typedef tree<T, null_type,less<T>, rb_tree_tag,tree_order_statistics_node_update> ordered_set;
+#define os_find(k) find_by_order(k)
+#define os_order(k) order_of_key(k)
+*/
+
+typedef long long int ll;
+typedef unsigned long long int ull;
+typedef long double ld;
+typedef vector<int> vi;
+typedef vector<long long> vll;
+#define f0(i,a,b) for(int i=a;i<b;i++)
+#define f1(i,a,b) for(int i=a;i<=b;i++)
+#define f2(i,a,b) for(int i=a;i>b;i--)
+#define f3(i,a,b) for(int i=a;i>=b;i--)
+#define all(a) a.begin(),a.end()
+#define cntleadz(x) __builtin_clz(x) // or add ll at the end for long long
+#define cnttrailz(x) __builtin_ctx(x)
+#define cntpop(x) __builtin_popcount(x)
+#define binparity(x) __builtin_parity(x)
+#define pb push_back
+#define pii pair<int,int>
+#define int long long
+#define fi first
+#define se second
+#define mod 1000000007
+// #define mod 998244353
+#define fast ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+#define make_graph(k) int x,y; f0(i,0,k){cin>>x>>y; adj[x].pb(y); adj[y].pb(x);}
+#define test int t;cin>>t;while(t--)
+
+int binExp(int x,int n)
+{
+    int res=1;
+    while(n)
+    {
+        if(n&1) res=(res*x)%mod;
+        x=(x*x)%mod;
+        n>>=1;
+    }
+    return res;
+}
+
+// int fact[100001];
+// int modInv(int i) {return binExp(i,mod-2);}
+// int ncr(int n,int r) {return (n>=r?(fact[n]*modInv(fact[r]))%mod*modInv(fact[n-r])%mod:0);}
+
+
+
+void solve()
+{
+	int n;
+    cin>>n;
+
+    map<int,int> m;
+    int lim = sqrt(n);
+    f1(i,2,lim)
+    {
+        while(n%i==0)
+        {
+            m[i]++;
+            n /= i;
+        }
+    }
+    if(n > 1) m[n]++;
+
+    int taken;
+    int freq = 0;
+    for(auto xx : m)
+    {
+        if(xx.se > freq)
+        {
+            freq = xx.se;
+            taken = xx.fi;
+        }
+    }
+    cout<<freq<<'\n';
+    f0(i,0,freq-1)
+    {
+        cout<<taken<<' ';
+    }
+
+    int res = taken;
+    for(auto xx : m)
+    {
+        if(xx.fi != taken)
+        {
+            f0(_,0,xx.se)
+            res *= xx.fi;
+        }
+    }
+    cout<<res<<'\n';
+}
+
+signed main()
+{
+    fast
+
+    clock_t start,end;
+    #ifndef ONLINE_JUDGE
+        freopen("inputf.txt","r",stdin);
+        freopen("outputf.txt","w",stdout);
+    #endif
+    start = clock();
+
+    test
+    solve();
+
+    end = clock();
+    double time_taken = double(end-start) / double(CLOCKS_PER_SEC);
+    // cout<<time_taken<<" sec";
+}
