@@ -1,0 +1,183 @@
+#include<bits/stdc++.h>
+using namespace std;
+//#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+
+#define ll long long
+#define fast ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define test int t; cin>>t; while(t--)
+#define pb push_back
+#define mp(a,b) make_pair(a,b)
+#define f0(i,n) for( ll i = 0; i < ( n ); i ++)
+#define f1(i,n) for(i = 1; i <= ( n ); i ++)
+#define f(i,m,n) for(auto i = ( m ); i <= ( n ); i ++)
+#define nl cout<<"\n"
+#define  mod 1000000007
+#define fi first
+#define se second
+#define all(a) a.begin(),a.end()
+#define rall(v) v.rbegin(), v.rend()
+#define SZ(x) ((ll)x.size())
+#define mem(a, b) memset(a, b, sizeof(a));
+#define make_graph(k) int x,y; f0(i,k){cin>>x>>y; adj[x].pb(y); adj[y].pb(x);}
+#define dekh cout<<"dekh"
+
+#define o_set tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update>
+#define o_setpll tree<pair<ll,ll>, null_type, less<pair<ll,ll>>, rb_tree_tag, tree_order_statistics_node_update>
+typedef vector<ll> vl;
+
+ll INF=1e18;
+
+
+ll Pow(ll a, ll b, ll m){
+    if(b==0)return 1;
+    if(b%2==0){
+        ll x = a*a;
+        x%=m;
+        return Pow(x,b/2,m);
+    }
+    return (a*Pow(a,b-1,m))%m;
+}
+/*
+vector<ll>adj[300005];
+ ll vis[300005]={0};
+ //ll subtree[200005]= {0};
+
+ map<pair<ll,ll>,ll>mp;
+ll ans=0;ll sum=0;
+
+void dfs(ll node , ll par)
+{
+    vis[node]=1;
+    //cout<<node<<" "<<par;nl;
+
+    for(auto child : adj[node])
+    {   //cout<<node<<" "<<par<<" "<<child;nl;
+         if(!vis[child])
+         {
+             //cout<<mp[{node,child}];nl;
+             sum+=mp[{node,child}];
+             dfs(child, node );
+         }
+         else
+         {
+             if(child!=par && par!=-1) {
+             if(mp[{node,par}]!=mp[{node,child}])
+                {
+                    ans=1; //cout<<mp[{node,par}]<<" "<<mp[{node,child}];nl;
+                    //cout<<node<<" "<<par<<" "<<child;nl;
+                }
+             }
+         }
+
+    }
+
+
+}
+
+*/
+
+bool isp(ll n)
+{
+    for(ll i=2;i*i<=n;i++)
+    {
+        if(n%i==0)return false;
+    }
+    return true;
+}
+ll nod(ll n)
+{
+    ll cnt=0;
+    while(n)
+    {   cnt+=n%10;
+        //cnt++;
+        n/=10;
+
+    }return cnt;
+}
+
+vector<ll>adj[100005];
+ll vis[100005];
+vl v;
+
+void dfs(ll node)
+{
+    vis[node]=1;
+    v.pb(node);
+    for(auto child : adj[node])
+    {
+        if(!vis[child])
+        {
+            dfs(child);
+        }
+    }
+}
+
+int main()
+{
+    fast
+    ll n;
+    cin>>n;
+    ll arr[4][n+5],i,j;
+    f1(i,3)
+    {
+        f1(j,n)cin>>arr[i][j];
+    }
+    make_graph(n-1);
+
+    f1(i,n)
+    {
+        if(adj[i].size()>=3){ cout<<"-1";return 0; }
+    }f1(i,n)
+    {
+        if(adj[i].size()==1){dfs(i) ;break; }
+    }
+    //f0(i,n)cout<<v[i]<< " ";nl;
+
+    ll sum =0;ll mini = INF; vl boom;
+
+    f1(i,3)
+    {
+        f1(j,3)
+        {   sum=0;// cout<<i<<" "<<j;nl;
+            if(i==j)continue;
+            vl ans(n+1);
+            ans[v[0]]=i;
+            ans[v[1]]=j;
+            sum+=arr[i][v[0]];//cout<<sum<<" "<<i<<" "<<j;nl;
+            sum+=arr[j][v[1]];
+
+          ll f = i,s=j;
+          f(k,2,v.size()-1)
+          {
+              ans[v[k]] = 6-(f+s);
+              sum+=arr[6-(f+s)][v[k]];
+              ll temp = s;
+              s = 6-(f+s);
+              f = temp;
+          }
+            ll k;
+           // cout<<sum;nl;
+          if(sum<mini)
+          {
+              mini =sum;
+              boom.clear();
+              f1(k,n)
+              {
+                  boom.pb(ans[k]);
+              }
+          }
+
+        }
+    }
+    cout<<mini;nl;
+    f0(i,n)cout<<boom[i]<<" ";
+
+
+
+}
+
+
+
+
