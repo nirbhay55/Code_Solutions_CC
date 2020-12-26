@@ -1,0 +1,160 @@
+#include<bits/stdc++.h>
+using namespace std;
+//#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+
+#define ll long long
+#define fast ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define test int t; cin>>t; while(t--)
+#define pb push_back
+#define mp(a,b) make_pair(a,b)
+#define f0(i,n) for( ll i = 0; i < ( n ); i ++)
+#define f1(i,n) for(ll i = 1; i <= ( n ); i ++)
+#define f(i,m,n) for(ll i = ( m ); i <= ( n ); i ++)
+#define nl cout<<"\n"
+#define  mod 1000000007
+#define fi first
+#define se second
+#define all(a) a.begin(),a.end()
+#define rall(v) v.rbegin(), v.rend()
+#define SZ(x) ((ll)x.size())
+#define mem(a, b) memset(a, b, sizeof(a));
+#define make_graph(k) int x,y; f0(i,k){cin>>x>>y; adj[x].pb(y); adj[y].pb(x);}
+#define dekh cout<<"dekh"
+
+#define o_set tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update>
+#define o_setpll tree<pair<ll,ll>, null_type, less<pair<ll,ll>>, rb_tree_tag, tree_order_statistics_node_update>
+typedef vector<ll> vl;
+
+
+
+/*
+ll Pow(ll a, ll b, ll m){
+    if(b==0)return 1;
+    if(b%2==0){
+        ll x = a*a;
+        x%=m;
+        return Pow(x,b/2,m);
+    }
+    return (a*Pow(a,b-1,m))%m;
+}*/
+/*
+vector<ll>adj[100005];
+ ll vis[100005]={0};
+ ll in[100005], low[100005];
+    ll flag,timer;
+    vector<pair<ll,ll>>el;
+ void bridge(ll node , ll par)
+ {
+     vis[node]=1;
+     in[node] = low[node]=timer;
+     timer++;
+     for(ll child : adj[node])
+     {
+         if(child==par)continue;
+         if(vis[child]==1)
+         {
+             low[node]= min(low[node], in[child]);
+             if( in[node]>in[child] )el.pb({node, child});
+         }
+         else
+         {   dfs1(child,node);
+             if(low[child]>in[node]){ flag=1; return; }
+             low[node]= min(low[node], low[child]);
+
+             el.pb({node, child});
+         }
+     }
+ }
+*/
+vector<ll>adj[100005];
+ll vis[100005]; ll cnt;
+void dfs(ll x)
+{
+
+    vis[x]=1;
+
+    for(auto child : adj[x])
+    {   if(!vis[child])
+         { ll ps;
+             if(x==1){  ps = adj[x].size(); }
+             else  ps = adj[x].size()-1;
+             ll cs = adj[child].size()-1;
+             if(cs>ps)cnt++;
+             dfs(child);
+         }
+
+    }
+         //subtree[x] = cursize;
+        //return cursize;
+}
+
+/*
+void bfs(ll src)
+{
+    queue<ll>q;
+    q.push(src);
+    vis[src]=1;
+    dis[src]=0;
+
+    while(!q.empty())
+    {
+        ll curr = q.front();
+        q.pop();
+        for(auto child : adj[curr])
+        {
+            if(!vis[child]){
+            q.push(child);
+            vis[child]=1;
+            dis[child]=dis[curr]+1;
+            lvl[dis[child]]++;}
+        }
+
+    }
+}
+*/
+
+
+
+
+int main()
+{
+    fast
+    string s;
+    cin>>s;
+    ll n = s.length();
+    ll a[n+1]={0},b[n+2]={0};
+    f0(i,n)
+    {
+        if(s[i]=='Q')
+        {
+            a[i+1]= a[i]+1;
+        }
+        else a[i+1]=a[i];
+    }
+    for(ll i=n-1;i>=0;i--)
+    {
+        if(s[i]=='Q')
+        {
+            b[i+1]=b[i+2]+1;
+        }
+        else b[i+1]=b[i+2];
+    }
+    //f1(i,n)cout<<a[i]<<" ";nl;
+    //f1(i,n)cout<<b[i]<<" ";nl;
+    ll ans=0;
+    f0(i,n)
+    {
+        if(s[i]=='A')
+        {
+            ans+= a[i+1]*b[i+1];
+        }
+    }
+    cout<<ans;
+}
+
+
+
+
+
