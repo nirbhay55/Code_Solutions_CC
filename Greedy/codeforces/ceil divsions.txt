@@ -1,0 +1,147 @@
+#include<bits/stdc++.h>
+using namespace std;
+//#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+
+#define ll long long
+#define fast ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define test int t; cin>>t; while(t--)
+#define pb push_back
+#define mp(a,b) make_pair(a,b)
+#define f0(i,n) for( ll i = 0; i < ( n ); i ++)
+#define f1(i,n) for(ll i = 1; i <= ( n ); i ++)
+#define f(i,m,n) for(auto i = ( m ); i <= ( n ); i ++)
+#define nl cout<<"\n"
+#define  mod 1000000007
+#define fi first
+#define se second
+#define all(a) a.begin(),a.end()
+#define rall(v) v.rbegin(), v.rend()
+#define SZ(x) ((ll)x.size())
+#define mem(a, b) memset(a, b, sizeof(a));
+#define make_graph(k) int x,y; f0(i,k){cin>>x>>y; adj[x].pb(y); adj[y].pb(x);}
+#define dekh cout<<"dekh"
+
+#define o_set tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update>
+#define o_setpll tree<pair<ll,ll>, null_type, less<pair<ll,ll>>, rb_tree_tag, tree_order_statistics_node_update>
+typedef vector<ll> vl;
+#define pp pair<ll,ll>
+
+ll INF=1e18;
+
+
+ll Pow(ll a, ll b, ll m){
+    if(b==0)return 1;
+    if(b%2==0){
+        ll x = a*a;
+        x%=m;
+        return Pow(x,b/2,m);
+    }
+    return (a*Pow(a,b-1,m))%m;
+}
+
+vector<ll>adj[300005];
+ ll vis[300005]={0};
+ll fl=0;
+
+void dfs(ll node )
+{
+    vis[node]=1;
+   // cout<<node<<" "<<par;nl;
+    //cout<<node;nl;
+
+    for(auto child : adj[node])
+    { //vis[node]=1;
+       if(vis[child]==0)
+       {
+           dfs(child);
+       }
+       else
+       {
+          // cout<<child<<"boo ";nl;fl++; cout<<fl;nl;
+           fl++;
+       }
+    }
+
+
+}
+
+
+
+bool isp(ll n)
+{
+    for(ll i=2;i*i<=n;i++)
+    {
+        if(n%i==0)return false;
+    }
+    return true;
+}
+ll nod(ll n)
+{
+    ll cnt=0;
+    while(n)
+    {   cnt+=n%10;
+        //cnt++;
+        n/=10;
+
+    }return cnt;
+}
+
+  /*ll ss[500000];
+void sieve()
+{
+    ll maxn = 5000002;
+    for(ll i=1;i<=maxn;i++)ss[i]=-1;
+    for(ll i=2;i<=maxn;i++)
+    {
+        if(ss[i]==-1)
+        {
+            for(ll j=i;j<=maxn;j+=i)
+                if(ss[j]==-1)ss[j]=i;
+        }
+    }
+}*/
+
+int main()
+{
+    fast
+    test
+    {
+       ll n; cin>>n;
+       ll las = n;
+       ll cur = n-1;
+       ll root = sqrt(las);
+       vector<pp>ans;
+
+       while(cur>2)
+       {
+           if(cur>root)
+           {
+               ans.pb({cur,n});
+           }
+           else
+           {
+               ans.pb({n,cur});
+               las = ( las/cur +(las%cur!=0) );
+               root = sqrt(las);
+               ans.pb({cur,n});
+           }cur--;
+       }
+       while(las>2)
+       {
+           ans.pb({n,2});
+           las = (las/cur + (las%cur!=0));
+
+       }
+       ans.pb({2,n});
+       cout<<ans.size();nl;
+       f0(i,ans.size()){cout<<ans[i].fi<<" "<<ans[i].second;nl;}
+
+
+    }
+}
+
+
+
+
