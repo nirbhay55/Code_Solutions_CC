@@ -1,0 +1,258 @@
+#include<bits/stdc++.h>
+using namespace std;
+//#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+
+#define ll long long
+#define fast ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define test int t; cin>>t; while(t--)
+#define pb push_back
+#define mp(a,b) make_pair(a,b)
+#define f0(i,n) for( ll i = 0; i < ( n ); i ++)
+#define f1(i,n) for(i = 1; i <= ( n ); i ++)
+#define f(i,m,n) for(auto i = ( m ); i <= ( n ); i ++)
+#define nl cout<<"\n"
+#define  mod 1000000007
+#define fir first
+#define sec second
+#define all(a) a.begin(),a.end()
+#define rall(v) v.rbegin(), v.rend()
+#define SZ(x) ((ll)x.size())
+#define mem(a, b) memset(a, b, sizeof(a));
+#define make_graph(k) int x,y; f0(i,k){cin>>x>>y; adj[x].pb(y); adj[y].pb(x);}
+#define dekh cout<<"dekh"
+
+#define o_set tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update>
+#define o_setpll tree<pair<ll,ll>, null_type, less<pair<ll,ll>>, rb_tree_tag, tree_order_statistics_node_update>
+typedef vector<ll> vl;
+
+ll INF=1e18;
+;
+
+
+ll Pow(ll a, ll b, ll m){
+    if(b==0)return 1;
+    if(b%2==0){
+        ll x = a*a;
+        x%=m;
+        return Pow(x,b/2,m);
+    }
+    return (a*Pow(a,b-1,m))%m;
+}
+
+ll binExp(ll x,ll n)
+{
+    ll res=1;
+    while(n)
+    {
+        if(n&1) res=(res*x)%mod;
+        x=(x*x)%mod;
+        n>>=1;
+    }
+    return res;
+}
+
+ll modInv(ll i) {return binExp(i,mod-2);}
+
+vector<ll>adj[300005];
+ ll vis[300005]={0};
+ll tin[100005],tout[100005];
+ll ti=1;
+
+void dfs(ll node )
+{
+        vis[node]=1;
+        tin[node]=ti++;
+
+        for(auto child : adj[node])
+        {
+            if(!vis[child])dfs(child);
+        }
+        tout[node]=ti-1;
+}
+
+
+
+bool isp(ll n)
+{
+    for(ll i=2;i*i<=n;i++)
+    {
+        if(n%i==0)return false;
+    }
+    return true;
+}
+ll nod(ll n)
+{
+    ll cnt=0;
+    while(n)
+    {   cnt+=n%10;
+        //cnt++;
+        n/=10;
+
+    }return cnt;
+}
+
+//  mujse nai ho rhi coding      . .
+/*
+ll arr[500005],lazy[500005];
+ll st[500005]; ll n;
+
+ll combine(  ll x,ll y , ll c)
+{
+    if(c%2){ return x|y; }
+    else return x^y;
+}
+
+void buildtreezz( ll si, ll ss, ll se ,ll c)
+{
+    if(ss==se)
+    {
+        st[si]=arr[ss];
+        return;
+    }
+    ll mid = (ss+se)/2;
+    buildtree( 2*si, ss, mid , c-1 );
+    buildtree( 2*si+1, mid+1,se ,c-1);
+
+   st[si]=combine(st[2*si], st[2*si+1], c);
+}
+
+ll query( ll si, ll ss , ll se,ll qs,ll qe, ll c )
+{
+
+    if(qs>se || qe<ss)return 100000000;
+    if( qs<=ss && qe>=se )
+    {
+        return st[si];
+    }
+
+    ll mid = (ss+se)/2;
+    ll l = query( 2*si, ss ,mid,1,n, c-1);
+    ll r = query( 2*si+1, mid+1 ,se,1,n, c-1);
+
+    return combine(l,r,c);
+}
+
+void update(ll si, ll ss, ll se, ll qi, ll c )
+{
+    //cout<<ss<<" "<<se;nl;
+    if(ss==se){ st[si]=arr[ss]; return; }
+
+    ll mid = (ss+se)/2;
+
+     if(qi<=mid ) update( 2*si, ss, mid,qi ,c-1);
+      else  update( 2*si+1, mid+1, se ,qi ,c-1);
+
+      st[si]=combine( st[2*si],st[2*si+1],c );
+}*/
+
+
+
+int main()
+{
+    fast
+    ll n,m;
+    cin>>n>>m;
+    ll ar[m],br[m];
+    f0(i,m)
+    {
+        cin>>ar[i]>>br[i];
+        if(ar[i]>br[i])swap(ar[i],br[i]);
+    }
+
+    ll a1=ar[0],b1=br[0];
+    ll ch[m]={0};ll dh[m]={0};
+    f0(i,m)
+    {
+        if( (ar[i]==a1) || (br[i]==a1)){ ch[i]=-1;dh[i]=-1; }
+    }
+    ll flag=0;ll ind=-1;
+    f0(i,m)
+    {
+        if(ch[i]!=-1){ ind = i;flag=1;break; }
+    }
+    if(flag==0){ cout<<"YES";nl;return 0; }
+
+    ll a2=ar[ind],b2=br[ind];
+
+    if(flag)
+    {  f0(i,m){
+        if(ch[i]!=-1)
+        {
+            if(ar[i]==a2 || br[i]==a2){ ch[i]=-1; }
+        }  }
+    }
+    flag=0;
+    f0(i,m)
+    {
+        if(ch[i]!=-1){flag=1;break;}
+    }
+    if(flag==0){ cout<<"YES";return 0; }
+
+    f0(i,m)
+    {
+        if(dh[i]!=-1)
+        {
+           if( ar[i]==b2 || br[i]==b2 ){ dh[i]=-1; }
+        }
+    }
+    flag=0;
+    f0(i,m)
+    {
+        if(dh[i]!=-1){flag=1;break;}
+    }
+    if(flag==0){ cout<<"YES";return 0; }
+    ///////////////////////////////////////////////////////
+    ll fh[m]={0},gh[m]={0};
+
+    f0(i,m)
+    {
+        if(ar[i]==b1 || br[i]==b1)
+        {
+            fh[i]=-1;gh[i]=-1;
+        }
+    }
+    flag=0;ind=-1;
+    f0(i,m)
+    {
+        if(fh[i]!=-1){ind=i;flag=1;break;}
+    }
+    if(flag==0){ cout<<"YES";return 0; }
+
+    a2=ar[ind],b2=br[ind];
+    f0(i,m)
+    {
+        if(fh[i]!=-1)
+        {
+            if(ar[i]==a2 || br[i]==a2){ fh[i]=-1; }
+        }
+    }
+    flag=0;
+    f0(i,m)
+    {
+        if(fh[i]!=-1){ flag=1;break; }
+    }
+    if(flag==0){ cout<<"YES";return 0; }
+    f0(i,m)
+    {
+        if(gh[i]!=-1)
+        {
+            if(ar[i]==b2 || br[i]==b2){ gh[i]=-1; }
+        }
+    }
+    flag=0;
+    f0(i,m)
+    {
+        if(gh[i]!=-1){ flag=1;break; }
+    }
+    if(flag==0)cout<<"YES";
+    else cout<<"NO";
+
+
+}
+
+
+
+
+
