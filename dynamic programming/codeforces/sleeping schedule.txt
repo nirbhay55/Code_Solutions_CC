@@ -1,0 +1,139 @@
+#include<bits/stdc++.h>
+using namespace std;
+//#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+
+#define ll long long
+#define fast ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define test int t; cin>>t; while(t--)
+#define pb push_back
+#define mp(a,b) make_pair(a,b)
+#define f0(i,n) for( ll i = 0; i < ( n ); i ++)
+#define f1(i,n) for( ll i = 1; i <= ( n ); i ++)
+#define f(i,m,n) for(auto i = ( m ); i <= ( n ); i ++)
+#define fr(i,m,n) for( auto i=(m);i>=(n);i--)
+#define nl cout<<"\n"
+#define  mod 1000000007
+#define fir first
+#define sec second
+#define all(a) a.begin(),a.end()
+#define rall(v) v.rbegin(), v.rend()
+#define SZ(x) ((ll)x.size())
+#define mem(a, b) memset(a, b, sizeof(a));
+#define make_graph(k) int x,y; f0(i,k){cin>>x>>y; adj[x].pb(y); adj[y].pb(x);}
+#define dekh cout<<"dekh"
+
+#define o_set tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update>
+#define o_setpll tree<pair<ll,ll>, null_type, less<pair<ll,ll>>, rb_tree_tag, tree_order_statistics_node_update>
+typedef vector<ll> vl;
+
+ll INF=1e18;
+;
+
+
+ll Pow(ll a, ll b, ll m){
+    if(b==0)return 1;
+    if(b%2==0){
+        ll x = a*a;
+        x%=m;
+        return Pow(x,b/2,m);
+    }
+    return (a*Pow(a,b-1,m))%m;
+}
+
+bool isp(ll n)
+{
+    for(ll i=2;i*i<=n;i++)
+    {
+        if(n%i==0)return false;
+    }
+    return true;
+}
+ll nod(ll n)
+{
+    ll cnt=0;
+    while(n)
+    {   cnt+=n%10;
+        //cnt++;
+        n/=10;
+
+    }return cnt;
+}
+
+// COMBINATION +++++++++++++++++++++++++++++++++++++++++++++++++++
+
+ll fac[200005],infac[200005];
+ ll comb( ll n, ll r )
+ {
+     if(r>n)return 0;
+     return (fac[n]%mod*infac[n-r]%mod*infac[r]%mod)%mod;
+ }
+
+ void facto()
+ {     fac[0]=1;infac[0]=1;
+           f(i,1,200001)
+            {
+                fac[i]=(fac[i-1]*i)%mod;
+                infac[i]=Pow(fac[i],mod-2,mod);
+            }
+ }
+ //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+//  mujse nai ho rhi coding      . .
+
+// a^b=a+b-2*(a&b)
+
+vector<ll>adj[300005];
+ ll vis[300005]={0};
+ ll vis2[300005]={0};
+
+
+bool dfs(ll node,ll par )
+{
+    //cout<<node<<" dfs1 ";nl;
+        vis[node]=1;
+
+        for(auto child : adj[node])
+        {
+            if(vis[child]==0)
+            {
+                if(dfs(child,node)==true)return true;
+            }
+            else
+            {
+                if(child!=par)return true;
+            }
+        }
+    return false;
+}
+ll n,h,l,r, arr[2005];ll dp[2005][2005];
+ll solve( ll ind, ll gh )
+{
+    if(ind>n)return 0;
+    ll ans =0;
+    if(dp[ind][gh]!=-1)return dp[ind][gh];
+    if(gh<=r && gh>=l && ind!=0)
+    {
+          ans = max( 1 + solve( ind+1 , (gh+arr[ind])%h ) , 1+solve( ind+1, ( gh+arr[ind]-1+h)%h ));
+    }
+    else{
+            ans = max(solve( ind+1 , (gh+arr[ind])%h ) , solve( ind+1, ( gh+arr[ind]-1+h)%h ));
+    }
+    return dp[ind][gh]=  ans;
+}
+
+int main()
+{
+    //if(n &(n-1)==0) then n is a power of 2;
+   fast
+   cin>>n>>h>>l>>r;
+   f0(i,n)cin>>arr[i];
+   mem(dp,-1);
+   cout<<  solve( 0,0);
+}
+
+
+
+
+
