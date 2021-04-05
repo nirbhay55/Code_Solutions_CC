@@ -132,6 +132,18 @@ void update(ll si, ll ss, ll se, ll qs, ll qe, ll val )
 
  //==========================================================================================
 
+ vector<int> pf[5000005],pr;      // pr stores the prime numbers from starting
+void process_seive(){             // pf stores the prime factors of the number
+    f(i,2,5000000){
+        if(SZ(pf[i])) continue;
+        pr.pb(i);
+        for(int j=i;j<=5000000;j+=i){
+            pf[j].pb(i);
+        }
+    }
+}
+//===============================================================================
+
 Topological sorting
  void kahn( ll n  )
 {
