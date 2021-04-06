@@ -342,3 +342,65 @@ void mergep( ll a,ll b )
 }
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    LOWEST COMMON ANCESTOR
+
+ll n,m,k;
+vector<ll>adj[200005];
+ll vis[200050];
+ll lvl[200050];
+ll LCA[200005][20];
+ll f;ll c;
+ll dfs( ll node, ll lv ,ll p)
+{
+    LCA[node][0]=p;  // first we are storing just above parent of a node
+    lvl[node]=lv;     // lvl of node
+   for(auto child : adj[node])
+   {
+       if(child!=p)dfs( child , lv+1 , node );
+   }
+
+}
+
+void init( ll n )
+{
+    dfs(1 , 0 , -1);
+
+    f1(i,18)
+    {
+        f1(j,n)
+        {
+            if( LCA[j][i-1]!=-1 )
+            {
+                ll par = LCA[j][i-1];  // here we are extracting the 2^i-1 parent of a node
+                LCA[j][i] = LCA[par][i-1]; // we used extracted value and after that we are extracting just above parent
+            }
+        }
+    }
+}
+
+ll getLCA( ll a, ll b)
+{
+    if( lvl[b]<lvl[a] )swap(a,b);  // here we are making b node more deeper than node a
+    ll d = lvl[b]- lvl[a];          // distance bw the lvl of nodes which b have to cover
+
+    while(d)
+    {
+        ll i = log2(d);  // binary uplifting , in this we are reaching to farthest reachable node
+        b = LCA[b][i];
+        d-=1<<i;       // decreasing the lvl node differnce
+    }
+
+    if(a==b)return a;   // if both node are equal position
+
+    fr(i,18,0)
+    {
+        if( LCA[a][i]!=-1 && ( LCA[a][i]  != LCA[b][i] ) )  // we dont want to reach equal lvl;
+        {
+            a = LCA[a][i] ; b= LCA[b][i]; // we are uplifting both a and b
+        }
+
+    }
+    return LCA[a][0];  // we are just one behind the actual LCA
+}
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
