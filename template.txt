@@ -1,3 +1,5 @@
+ SEGMENT TREE LAZY PROPAGATION
+
 void shift (ll si)
 {
     ll a = st[si].ar[1];
@@ -349,7 +351,7 @@ ll n,m,k;
 vector<ll>adj[200005];
 ll vis[200050];
 ll lvl[200050];
-ll LCA[200005][20];
+ll LCA[200005][20]; // stores the parents
 ll f;ll c;
 ll dfs( ll node, ll lv ,ll p)
 {
@@ -404,3 +406,37 @@ ll getLCA( ll a, ll b)
     return LCA[a][0];  // we are just one behind the actual LCA
 }
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   DIJKSTRA
+
+ vl dis(200005,INF); ll par[200005];
+   vector<pair<ll,ll>>adj[200005];
+   set<pair<ll,ll>>s;
+
+   void dijks(ll src)
+   {
+       s.insert({ 0,src });
+       dis[src]=0;
+
+       while(s.size())
+       {
+           auto it = s.begin();
+           ll curd = (it->first);
+           ll cur = (it->second);
+
+           s.erase(it);
+
+           if( dis[cur]!=curd )continue;
+
+           for( pair<ll,ll> edge : adj[cur] )
+           {
+               if( curd + edge.sec< dis[edge.fir] )
+               {
+                   par[edge.fir]=cur; // this is  for the parent of the node from which this node is getting smaller path
+                   dis[edge.fir]=curd+edge.sec;
+                   s.insert( { dis[edge.fir], edge.fir } );
+               }
+           }
+       }
+   }
+
+   ==================================================================
