@@ -1,3 +1,21 @@
+// this sieve is for smallest prime factor of a number
+// this sieve we can use when input is large
+int spf[10000008];
+void sieve()
+{
+    f(i,1,10000000)spf[i]=i;
+    int cnt=0;
+    f(i,2,sqrt(10000000))
+    {
+        if( spf[i]!=i )continue;
+        for( int j=i*i;j<=10000000;j+=i )
+        {
+            if( spf[j]==j )spf[j]=i;
+        }
+    }
+}
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  SEGMENT TREE LAZY PROPAGATION
 
 void shift (ll si)
@@ -197,7 +215,7 @@ Topological sorting
 
  For strongly connected components kosaraju algo
 
- vi ar[1000001];
+vi ar[1000001];
 vi tr[1000001];
 
 int vis[1000001];
@@ -347,13 +365,15 @@ void mergep( ll a,ll b )
 
     LOWEST COMMON ANCESTOR
 
+    har test case me LCA lo mem(LCA,-1) ker dena
+
 ll n,m,k;
 vector<ll>adj[200005];
 ll vis[200050];
 ll lvl[200050];
 ll LCA[200005][20]; // stores the parents
 ll f;ll c;
-ll dfs( ll node, ll lv ,ll p)
+void dfs( ll node, ll lv ,ll p)
 {
     LCA[node][0]=p;  // first we are storing just above parent of a node
     lvl[node]=lv;     // lvl of node
@@ -439,4 +459,130 @@ ll getLCA( ll a, ll b)
        }
    }
 
-   ==================================================================
+====================================================================================
+  MO'S ALGORITHM
+
+  ll freq[300005], arr[300005];
+ll maxi=0;ll n,q;ll ans[300005];
+ll frefre[300005];
+
+struct query{
+    ll l;  ll r ; ll i;
+};
+
+query  Q[300005];
+ll BLK=600;
+bool comp( query a, query b )
+{
+    if( a.l/BLK != b.l/BLK )
+        return a.l/BLK < b.l/BLK;
+
+    return a.r<b.r;
+}
+
+void add(ll pos)
+{
+    ll pref = freq[arr[pos]];
+    freq[ arr[pos] ]++;
+    ll curf = freq[ arr[pos]];
+    frefre[pref]--;
+    frefre[curf]++;
+    if( curf>maxi )
+    {
+        maxi = curf;
+    }
+}
+void rem(ll pos)
+{
+   ll pref = freq[arr[pos]];
+    freq[ arr[pos] ]--;
+    ll curf = freq[ arr[pos]];
+    frefre[pref]--;
+    frefre[curf]++;
+   if( curf < maxi )
+   {
+       while(frefre[maxi]==0)maxi--;
+   }
+
+}
+
+int main()
+{
+
+    cin>>n>>q;
+    f0(i,n)cin>>arr[i];
+    vector<pair<ll,pair<ll,ll>>>v;
+    f0(i,q)
+    {
+        ll a,b;cin>>a>>b; a--;b--;
+        Q[i].i=i ; Q[i].l =a ; Q[i].r=b;
+    }
+    sort(Q,Q+q ,comp);
+
+    ll ml=0,mr=-1;
+    f0(i,q)
+    {
+        ll l = Q[i].l;
+        ll r = Q[i].r;
+        ll ind = Q[i].i;
+
+            while(ml>l)
+            ml--,add(ml);
+
+            while( mr<r )
+            mr++,add(mr);
+
+            while( ml<l )
+            rem(ml) ,ml++;
+
+            while(mr>r)
+                rem(mr),mr--;
+
+
+            ll len = r-l+1;
+            ll rem = len - maxi;
+            ll half= (len+1)/2;
+
+            if( maxi<=half )ans[ind]=1;
+            else ans[ind]=len-2*rem;
+    }
+
+    f0(i,q)
+    {
+        cout<<ans[i];nl;
+    }
+}
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    DIGIT DP   this is the code for sum of digits till number n from 1
+
+    ll arr[15];
+ll dp[12][105][3];
+
+ll solve( ll pos, ll n, ll sum , bool flag )
+{
+    if( pos>n )return sum;
+   // cout<<dp[pos][sum][flag];nl;
+    if( dp[pos][sum][flag]!=-1 )return dp[pos][sum][flag];
+
+    ll res=0;
+
+    ll limit = 9;
+    if( !flag )limit =arr[pos];
+
+    f0(i,limit+1)
+    {
+        if( flag || i<limit ) // if previously some smaller digit is occured || limit se chota
+        {
+            res+= solve( pos+1, n , sum+i, true );
+        }
+        else
+        {
+            res+= solve( pos+1, n, sum+i, false );
+        }
+    }
+    return dp[pos][sum][flag]=res;
+}
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
